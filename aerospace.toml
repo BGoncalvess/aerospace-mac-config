@@ -1,0 +1,98 @@
+# AeroSpace. Option é "alt", Control é "ctrl".
+# A ordem dos modificadores no ficheiro é sempre: cmd, alt, ctrl, shift.
+
+config-version = 2
+
+start-at-login = false
+
+# Cada contentor fica com no máximo duas janelas, e a orientação alterna.
+# Junto com o callback em baixo, uma janela nova parte a anterior ao meio:
+# esquerda/direita, depois cima/baixo. É a espiral de Fibonacci.
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+persistent-workspaces = ['1', '2', '3', '4', '5', 'c1', 'c2', 'c3', 'c4', 'c5', 't1', 't2', 't3', 't4', 't5']
+
+[gaps]
+inner.horizontal = 0
+inner.vertical = 0
+outer.left = 0
+outer.right = 0
+outer.top = 0
+outer.bottom = 0
+
+# 1–5: ecrã principal (barra de menus, o Built-in).
+# c1–c5: Dell de cima. Com os dois Dells ligados o macOS chama-lhe "(2)".
+#        Com um só, o nome volta a "DELL P2422HE".
+# t1–t5: terceiro monitor, o outro Dell, "DELL P2422HE (1)".
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+c1 = ['^DELL P2422HE \(2\)$', '^DELL P2422HE$']
+c2 = ['^DELL P2422HE \(2\)$', '^DELL P2422HE$']
+c3 = ['^DELL P2422HE \(2\)$', '^DELL P2422HE$']
+c4 = ['^DELL P2422HE \(2\)$', '^DELL P2422HE$']
+c5 = ['^DELL P2422HE \(2\)$', '^DELL P2422HE$']
+t1 = '^DELL P2422HE \(1\)$'
+t2 = '^DELL P2422HE \(1\)$'
+t3 = '^DELL P2422HE \(1\)$'
+t4 = '^DELL P2422HE \(1\)$'
+t5 = '^DELL P2422HE \(1\)$'
+
+# Nova janela: junta-a com a vizinha. O contentor passa a ter dois filhos
+# e o próximo split muda de direção. Sem vizinha (a primeira janela), não faz nada.
+[[on-window-detected]]
+if = 'true'
+run = 'exec-and-forget /opt/homebrew/bin/aerospace join-with left --window-id "$AEROSPACE_WINDOW_ID" || /opt/homebrew/bin/aerospace join-with up --window-id "$AEROSPACE_WINDOW_ID"'
+
+[mode.main.binding]
+# Ecrã principal. Com o botão do rato carregado, a janela focada vai para esse workspace.
+alt-1 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh 1'
+alt-2 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh 2'
+alt-3 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh 3'
+alt-4 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh 4'
+alt-5 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh 5'
+
+# Monitor de cima. As teclas são 1–5; os workspaces chamam-se c1–c5.
+ctrl-1 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh c1'
+ctrl-2 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh c2'
+ctrl-3 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh c3'
+ctrl-4 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh c4'
+ctrl-5 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh c5'
+
+# Terceiro monitor. As teclas são 1–5; os workspaces chamam-se t1–t5.
+alt-ctrl-1 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh t1'
+alt-ctrl-2 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh t2'
+alt-ctrl-3 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh t3'
+alt-ctrl-4 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh t4'
+alt-ctrl-5 = 'exec-and-forget ~/.config/aerospace/drag-workspace.sh t5'
+
+# Levar a janela focada para esse workspace.
+alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+alt-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+ctrl-shift-1 = 'move-node-to-workspace c1 --focus-follows-window'
+ctrl-shift-2 = 'move-node-to-workspace c2 --focus-follows-window'
+ctrl-shift-3 = 'move-node-to-workspace c3 --focus-follows-window'
+ctrl-shift-4 = 'move-node-to-workspace c4 --focus-follows-window'
+ctrl-shift-5 = 'move-node-to-workspace c5 --focus-follows-window'
+
+alt-o = 'exec-and-forget open -a Obsidian'
+alt-c = 'exec-and-forget open -a Cursor'
+alt-t = 'exec-and-forget open -a Terminal'
+
+alt-f = 'fullscreen'
+alt-m = 'macos-native-minimize'
+alt-shift-f = 'layout floating tiling'
+
+# A diminui, D aumenta, no eixo em que a janela está dividida.
+alt-shift-a = 'resize smart -50'
+alt-shift-d = 'resize smart +50'
